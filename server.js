@@ -6,10 +6,10 @@ const pool = require('./db');
 const app = express();
 
 // ==============================
-// ✅ CORS CONFIG (VERY IMPORTANT)
+// ✅ CORS CONFIG
 // ==============================
 app.use(cors({
-  origin: '*', // allow all (for development)
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type']
 }));
@@ -47,11 +47,10 @@ app.get('/test-db', async (req, res) => {
 // ==============================
 app.post('/api/business/create', async (req, res) => {
   try {
-    console.log("Incoming request:", req.body); // 🔥 DEBUG LOG
+    console.log("Incoming request:", req.body);
 
     const { business_name, ntn, business_type, address, city, phone } = req.body;
 
-    // Basic validation
     if (!business_name || !ntn || !business_type || !address || !city || !phone) {
       return res.status(400).json({
         status: "error",
@@ -84,10 +83,10 @@ app.post('/api/business/create', async (req, res) => {
 });
 
 // ==============================
-// ✅ START SERVER
+// ✅ START SERVER (FIXED)
 // ==============================
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log("DB URL:", process.env.DATABASE_URL);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
 });
